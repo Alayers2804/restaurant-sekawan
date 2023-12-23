@@ -2,7 +2,7 @@
 import apiAxios from "../api/api";
 import { useEffect, useState } from "react";
 
-const getRestaurants = () => {
+const useGetRestaurants = () => {
   const [dataRestaurants, setDataRestaurants] = useState([]);
 
   useEffect(() => {
@@ -21,4 +21,4 @@ const getRestaurants = () => {
   return dataRestaurants;
 };
 
-export { getRestaurants };
+export { useGetRestaurants as getRestaurants };
