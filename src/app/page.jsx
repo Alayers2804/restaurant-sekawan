@@ -1,5 +1,3 @@
-import Image from "next/image";
-import Card from "./components/card";
 import Nav from "./components/nav";
 import Filter from "./sections/filter";
 import ListRestaurant from "./sections/listRestaurant";
