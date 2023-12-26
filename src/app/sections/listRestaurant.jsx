@@ -1,6 +1,6 @@
 "use client";
 import { RestaurantCard } from "../components/card";
-import { getRestaurants } from "../hooks/UseGetRestaurants";
+import { getRestaurants } from "@/app/hooks/useGetRestaurants";
 import Link from "next/link";
 
 export default function ListRestaurant() {
