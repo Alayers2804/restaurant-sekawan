@@ -9,6 +9,7 @@ const useGetRestaurants = () => {
     const fetchData = async () => {
       try {
         const res = await apiAxios.get("/list");
+        console.log(res.data);
         setDataRestaurants(res.data);
       } catch (error) {
         console.log(error);

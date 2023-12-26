@@ -2,7 +2,9 @@ export default function Nav() {
   return (
     <nav className="py-3 flex container mx-auto justify-between items">
       <div className="flex flex-col mx-auto my-2">
-        <h1 className="font-sans text-2xl">Restaurants</h1>
+        <a className="font-sans text-2xl" href="/">
+          Restaurants
+        </a>
         <div className="mt-4">
           <p className="font-sans font-light">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi

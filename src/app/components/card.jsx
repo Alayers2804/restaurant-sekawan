@@ -12,9 +12,9 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 
-export function RestaurantCard({ image, name, rating, city, description }) {
+export function RestaurantCard({ image, name, rating, city }) {
   return (
-    <Card className="w-full max-w-[26rem] shadow-lg">
+    <Card className="w-full max-w-[26rem] shadow-lg max-h-[30rem] h-full flex flex-col justify-between">
       <CardHeader floated={false} color="blue-gray">
         <Image
           src={image_url + image}
@@ -48,9 +48,6 @@ export function RestaurantCard({ image, name, rating, city, description }) {
           </Typography>
         </div>
         <Typography color="gray">{city}</Typography>
-        <div className="group mt-8 inline-flex flex-wrap items-center gap-3">
-          {description}
-        </div>
       </CardBody>
       <CardFooter className="pt-1">
         <Button
