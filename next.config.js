@@ -2,6 +2,7 @@
 const nextConfig = {
   images: {
     domains: ["restaurant-api.dicoding.dev"],
+    
   },
 };
 

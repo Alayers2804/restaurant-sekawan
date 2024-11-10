@@ -6,6 +6,8 @@ import React, { useState, useEffect } from "react";
 import { image_url } from "@/app/api/api";
 import Image from "next/image";
 import Nav from "@/app/components/nav";
+import usePostReview from '@/app/hooks/usePostReview';
+
 // Custom hook to fetch restaurant details
 const useRestaurantDetails = (restaurantId) => {
   const [restaurant, setRestaurant] = useState(null);
@@ -13,11 +15,12 @@ const useRestaurantDetails = (restaurantId) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!restaurantId) return;
     const fetchRestaurantDetails = async () => {
       try {
         const response = await apiAxios(`/detail/${restaurantId}`);
 
-        if (response.status === 200) {
+        if (response.data && response.data.error === false) {
           const data = response.data;
 
           // Check if the response contains the expected structure
@@ -48,14 +51,29 @@ const RestaurantDetails = () => {
   const params = useParams();
   const restaurantId = params.id;
   const { restaurant, loading, error } = useRestaurantDetails(restaurantId);
+  const { formData, handleChange, handleSubmit, loading: submitting, error: submitError } = usePostReview(restaurantId);
 
-  if (loading) {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!imageLoaded) {
+        setImageLoaded(true); // Assume loading completed after delay
+      }
+    }, 1000); // Adjust the delay as needed
+
+    return () => clearTimeout(timer); // Clean up the timer on component unmount
+  }, [imageLoaded]);
+
+  const isLoading = loading || (!imageLoaded && restaurant);
+
+  if (isLoading) {
     return (
       <div className="h-screen flex items-center justify-center">
         <div role="status">
           <svg
             aria-hidden="true"
-            class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+            className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +99,7 @@ const RestaurantDetails = () => {
   }
 
   if (!restaurant) {
-    // If restaurant is not available yet, you can choose to return null or a loading indicator
+
     return null;
   }
 
@@ -214,6 +232,32 @@ const RestaurantDetails = () => {
                   </div>
                 </li>
               ))}
+            </div>
+            <div className="mt-10">
+              <h5 className="text-2xl font-bold">Submit Your Review</h5>
+              <form onSubmit={handleSubmit} className="mt-4 space-y-4">
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Your Name"
+                  className="w-full p-2 border rounded"
+                  required
+                />
+                <textarea
+                  name="review"
+                  value={formData.review}
+                  onChange={handleChange}
+                  placeholder="Your Review"
+                  className="w-full p-2 border rounded"
+                  required
+                />
+                <button type="submit" className="bg-blue-500 text-white p-2 rounded" disabled={submitting}>
+                  {submitting ? 'Submitting...' : 'Submit Review'}
+                </button>
+                {submitError && <p className="text-red-500">{submitError}</p>}
+              </form>
             </div>
           </div>
         </div>
